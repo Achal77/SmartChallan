@@ -1,4 +1,4 @@
-# Project Report – SmartChallan: AI-Powered E-Challan Generation System
+# Project Report - SmartChallan Traffic Violation Detection System
 
 **Author**: A Achal
 **Registration No.**: 24BAI10839
@@ -7,7 +7,7 @@
 
 ## Cover Page
 
-**Project**: SmartChallan - AI-Powered E-Challan Generation System  
+**Project**: SmartChallan - Traffic Violation Detection System  
 **Author**: A Achal  
 **Registration No.**: 24BAI10839  
 **Course**: Computer Vision  
@@ -17,35 +17,29 @@
 
 ## 1. Problem Statement
 
-India records one of the highest road accident rates in the world. A significant proportion of accidents involve two-wheelers — and the leading causes are **helmet non-compliance**, **triple riding**, and **signal jumping**. Manual enforcement by traffic police is limited in reach, prone to human error, and unable to operate 24×7.
+In this project I focused on three common two-wheeler violations: no helmet, triple riding, and jumping a red light. A person reviewing camera footage has to notice the event, identify the vehicle, save evidence, and prepare a record. That process is slow when done for every frame.
 
-Existing traffic camera systems in most Indian cities are either non-AI (simple CCTV recording) or expensive proprietary systems. There is a clear gap for an intelligent, affordable, computer vision-based solution that can:
+My aim was to build a small proof-of-concept that can:
 
-- Detect violations automatically in real-time
-- Extract the vehicle number for identification
-- Generate an official challan (fine notice) without manual intervention
+- detect the selected violations from a camera frame
+- extract a vehicle number when the image is readable
+- save the evidence and create a challan record
 
 ---
 
-## 2. Why This Problem Matters
+## 2. Reason for Choosing the Problem
 
-- Over **1.5 lakh people** die in road accidents in India annually (MoRTH, 2022)
-- **Helmet non-compliance** is responsible for ~45% of two-wheeler fatalities
-- **Triple riding** significantly increases crash severity
-- Traffic police are understaffed — automation can multiply their effectiveness
-- E-challan systems (like iRASTE, ITMS) already exist in major cities but are not open-source or accessible
-
-This project demonstrates that a functional, CV-powered traffic enforcement system can be built with open-source tools and minimal hardware.
+I chose this problem because it combines object detection, image processing, OCR, storage, and a user interface in one project. It also gives a clear output to demonstrate: an annotated image, a log entry, and a generated challan. This is a classroom prototype, not an official traffic system.
 
 ---
 
 ## 3. Objectives
 
-1. Build a real-time violation detection system using a webcam or video feed
-2. Detect at least 3 violation types using computer vision
-3. Extract vehicle number plates using OCR
-4. Automatically generate a structured PDF e-challan as evidence
-5. Present all information in a usable web dashboard
+1. Read frames from a webcam or use a demo frame.
+2. Detect three violation types using computer vision rules.
+3. Try to read the number plate with OCR.
+4. Generate a PDF challan with the detection details.
+5. Display the results in a Streamlit dashboard.
 
 ---
 
@@ -201,11 +195,11 @@ The prototype is assessed for functional completion rather than production accur
 
 ## 13. What I Learned
 
-1. **YOLOv8 is remarkably accessible** — downloading a pretrained model and running inference takes under 10 lines of Python. The hard work is in the application logic built around detections.
+1. **YOLOv8 was easy to try** — loading a pretrained model took only a few lines. Most of my work was in connecting its output to the violation rules and the dashboard.
 
 2. **Heuristics are a valid starting point** — not every CV problem requires a custom model. Colour-space analysis and geometric reasoning can solve real problems effectively.
 
-3. **OCR on real-world images is hard** — controlled conditions (good lighting, frontal angle, clean plate) are necessary for reliable OCR. This was the most humbling part of the project.
+3. **OCR on real-world images is hard** — good lighting, a frontal angle, and a clean plate are important. This was the part that gave the least consistent results.
 
 4. **Streamlit is powerful for CV prototyping** — combining image display, controls, and data tables in one Python file is very productive.
 
@@ -235,4 +229,4 @@ The prototype is assessed for functional completion rather than production accur
 
 ---
 
-*This report documents the complete development process of SmartChallan, built by A Achal, as part of the BYOP capstone submission.*
+*I prepared this report for my Computer Vision BYOP submission.*

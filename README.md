@@ -1,28 +1,28 @@
-# 🚦 SmartChallan – AI-Powered E-Challan Generation System
+# SmartChallan - Traffic Violation Detection System
 
-An intelligent traffic enforcement system that uses **Computer Vision (YOLOv8)** to detect traffic violations in real-time and automatically generates **PDF e-challans** — just like the systems used by traffic police in India.
+SmartChallan is my computer vision project for detecting common traffic violations from a webcam. It uses YOLOv8 for people and motorcycle detection, OpenCV for image processing, Tesseract for number plates, and Streamlit for the dashboard.
 
 **Student**: A Achal  
 **Registration No.**: 24BAI10839
 
 ---
 
-## 📸 Features
+## Features
 
 | Feature | Description |
 |---|---|
-| 👁️ **Person & Vehicle Detection** | YOLOv8 detects motorcycles and riders in real-time |
-| 🪖 **No Helmet Detection** | Identifies riders not wearing helmets |
-| 👥 **Triple Riding Detection** | Flags 3 or more persons on a single motorcycle |
-| 🚦 **Red Light Jump Detection** | Detects vehicles crossing during a red signal |
-| 🔤 **Number Plate OCR** | Extracts vehicle registration number using Tesseract |
-| 🧾 **Auto PDF Challan** | Generates a professional PDF challan with evidence snapshot |
-| 📊 **Streamlit Dashboard** | Live feed, statistics, logs, and downloadable challans |
-| 🎭 **Demo Mode** | Works without a camera for demonstration purposes |
+| Person and motorcycle detection | YOLOv8 detects the two COCO classes used by the project |
+| No-helmet detection | Checks the upper part of a detected rider |
+| Triple-riding detection | Counts people overlapping a motorcycle box |
+| Red-light detection | Checks for red pixels in the upper centre of the frame |
+| Number-plate OCR | Uses Tesseract on the bottom part of a motorcycle box |
+| Challan generation | Saves a PDF with the detection details and evidence image |
+| Dashboard | Shows the feed, statistics, log, and saved challans |
+| Demo mode | Runs the workflow without a webcam |
 
 ---
 
-## 🛠️ Tech Stack
+## Tools Used
 
 - **Python 3.10+**
 - **OpenCV** – Video capture & image processing
@@ -34,7 +34,7 @@ An intelligent traffic enforcement system that uses **Computer Vision (YOLOv8)**
 
 ---
 
-## 🚀 Setup & Installation
+## Setup
 
 ### 1. Clone the repository
 ```bash
@@ -67,7 +67,7 @@ Open your browser at `http://localhost:8501`
 
 ---
 
-## 🎮 How to Use
+## Running the Project
 
 ### With a webcam:
 1. Click **▶ Start Camera**
@@ -75,12 +75,12 @@ Open your browser at `http://localhost:8501`
 3. Violations are detected automatically
 4. PDF challans appear in the **Saved Challans** tab
 
-### Without a webcam (Demo):
+### Without a webcam (demo):
 1. Click **🎭 Demo Mode**
 2. The system simulates 3 violations
 3. PDFs are generated instantly — download from the Challans tab
 
-## ✅ Testing
+## Tests
 
 Run the validation suite from the project root:
 
@@ -93,7 +93,7 @@ formatting, submission identity, storage schema, and PDF/text challan generation
 The camera and YOLO paths require
 the optional runtime dependencies listed in `requirements.txt`.
 
-## 📋 Requirements & Design
+## Project Documents
 
 - Project scope and target users: [statement.md](statement.md)
 - Functional and non-functional requirements: [docs/requirements.md](docs/requirements.md)
@@ -102,7 +102,7 @@ the optional runtime dependencies listed in `requirements.txt`.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 e-challan-system/
@@ -131,7 +131,7 @@ e-challan-system/
 
 ---
 
-## 🧠 How It Works
+## Processing Flow
 
 ```
 Live Camera Feed
@@ -159,7 +159,7 @@ Log to CSV + Display in Dashboard
 
 ---
 
-## 📊 Violation Fine Chart
+## Fine Table Used by the Demo
 
 | Violation | Fine (INR) |
 |---|---|
@@ -169,7 +169,7 @@ Log to CSV + Display in Dashboard
 
 ---
 
-## ⚠️ Limitations & Future Work
+## Limitations
 
 - Number plate OCR accuracy depends on image quality and lighting
 - Helmet detection uses a brightness heuristic; a custom-trained model would improve accuracy
@@ -178,10 +178,10 @@ Log to CSV + Display in Dashboard
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **A Achal**
-Built as a **Bring Your Own Project (BYOP)** submission for the Computer Vision course.
+This is a Bring Your Own Project (BYOP) submission for the Computer Vision course.
 
 ---
 

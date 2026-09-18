@@ -5,17 +5,17 @@
 
 ## Problem Statement
 
-Manual traffic enforcement cannot continuously monitor every road, and paper-based processing makes it difficult to identify violations, preserve evidence, and issue notices quickly. SmartChallan uses computer vision to detect common two-wheeler violations, read the vehicle number plate, and generate an evidence-backed e-challan.
+Checking traffic footage manually takes time. It is also easy to lose the connection between a violation, the vehicle number, and the evidence image. I built SmartChallan to test a small automated workflow for these tasks. The program reads a camera frame, checks for selected two-wheeler violations, reads a plate when possible, and creates a challan record.
 
 ## Scope
 
-The project covers webcam-based monitoring, YOLOv8 person and motorcycle detection, heuristic helmet analysis, triple-riding detection, red-light colour analysis, number-plate OCR, CSV logging, and PDF challan generation. It is a proof-of-concept and does not connect to government databases, make legal enforcement decisions, or send messages to vehicle owners.
+The project covers webcam monitoring, YOLOv8 person and motorcycle detection, a brightness-based helmet check, triple-riding detection, red-light colour analysis, number-plate OCR, CSV logging, and PDF generation. It is a classroom prototype. It does not connect to government databases, make legal decisions, or contact vehicle owners.
 
 ## Target Users
 
-- Traffic enforcement teams reviewing camera footage
-- Computer-vision students demonstrating an end-to-end ML application
-- Researchers evaluating lightweight violation-detection workflows
+- A traffic reviewer checking camera footage
+- Students demonstrating a computer vision application
+- Anyone testing a small traffic-monitoring prototype
 
 ## High-Level Features
 

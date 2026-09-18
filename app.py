@@ -8,7 +8,7 @@ from config import CHALLANS_DIR, DEMO_PLATE, SNAPSHOTS_DIR, ensure_runtime_direc
 from storage import append_log, load_log
 
 st.set_page_config(
-    page_title="SmartChallan – AI Traffic Enforcement",
+    page_title="SmartChallan - Traffic Violation Detection",
     page_icon="🚦",
     layout="wide",
 )
@@ -93,7 +93,7 @@ if "demo_mode"     not in st.session_state: st.session_state.demo_mode      = Fa
 st.markdown("""
 <div class="header-bar">
   <span style="font-family:Rajdhani;font-size:2rem;font-weight:700;color:#38bdf8;">🚦 SmartChallan</span>
-  <span style="color:#64748b;font-size:1rem;margin-left:12px;">AI-Powered Traffic Enforcement System</span>
+    <span style="color:#64748b;font-size:1rem;margin-left:12px;">Traffic Violation Detection System</span>
     <span style="color:#475569;font-size:0.8rem;float:right;">Built by A Achal | Reg. No. 24BAI10839</span>
 </div>
 """, unsafe_allow_html=True)
