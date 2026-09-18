@@ -38,7 +38,7 @@ An intelligent traffic enforcement system that uses **Computer Vision (YOLOv8)**
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/stevekevindias/Computer_Vision_VITYARTHI
+git clone https://github.com/Achal77/SmartChallan.git
 ```
 
 ### 2. Create a virtual environment (recommended)
