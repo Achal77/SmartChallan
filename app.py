@@ -2,10 +2,10 @@ import streamlit as st
 import cv2
 import numpy as np
 from datetime import datetime
-import os
-import pandas as pd
 from detector import ViolationDetector
 from challan_generator import generate_challan
+from config import CHALLANS_DIR, DEMO_PLATE, SNAPSHOTS_DIR, ensure_runtime_directories
+from storage import append_log, load_log
 
 st.set_page_config(
     page_title="SmartChallan – AI Traffic Enforcement",
@@ -80,22 +80,7 @@ h1, h2, h3 { font-family: 'Rajdhani', sans-serif; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── Directories ───────────────────────────────────────────────────────────────
-os.makedirs("snapshots", exist_ok=True)
-os.makedirs("challans",  exist_ok=True)
-os.makedirs("logs",      exist_ok=True)
-
-LOG_FILE = "logs/detections.csv"
-
-def load_log():
-    if os.path.exists(LOG_FILE):
-        return pd.read_csv(LOG_FILE)
-    return pd.DataFrame(columns=["timestamp","violation","plate","confidence","challan_id","snapshot"])
-
-def append_log(entry: dict):
-    df = load_log()
-    df = pd.concat([df, pd.DataFrame([entry])], ignore_index=True)
-    df.to_csv(LOG_FILE, index=False)
+ensure_runtime_directories()
 
 # ── Session state ─────────────────────────────────────────────────────────────
 if "detector"      not in st.session_state: st.session_state.detector      = None
@@ -178,13 +163,13 @@ with tab1:
         st.info("No detections yet. Start the camera to begin monitoring.")
 
 with tab2:
-    pdfs = sorted([f for f in os.listdir("challans") if f.endswith(".pdf")], reverse=True)
+    pdfs = sorted([f.name for f in CHALLANS_DIR.iterdir() if f.suffix == ".pdf"], reverse=True)
     if pdfs:
         for pdf in pdfs[:10]:
             col_a, col_b = st.columns([4,1])
             with col_a: st.text(pdf)
             with col_b:
-                with open(f"challans/{pdf}", "rb") as fh:
+                with open(CHALLANS_DIR / pdf, "rb") as fh:
                     st.download_button("⬇ Download", fh, file_name=pdf, mime="application/pdf", key=pdf)
     else:
         st.info("No challans generated yet.")
@@ -202,9 +187,9 @@ if st.session_state.running and st.session_state.detector:
 
         # Simulate a detection
         demo_violations = [
-            {"type": "No Helmet",      "confidence": 0.91, "box": (80,  100, 220, 280), "plate": "24BAI10839"},
-            {"type": "Triple Riding",  "confidence": 0.85, "box": (280, 120, 460, 300), "plate": "24BAI10839"},
-            {"type": "Red Light Jump", "confidence": 0.78, "box": (480, 80,  600, 260), "plate": "24BAI10839"},
+            {"type": "No Helmet",      "confidence": 0.91, "box": (80,  100, 220, 280), "plate": DEMO_PLATE},
+            {"type": "Triple Riding",  "confidence": 0.85, "box": (280, 120, 460, 300), "plate": DEMO_PLATE},
+            {"type": "Red Light Jump", "confidence": 0.78, "box": (480, 80,  600, 260), "plate": DEMO_PLATE},
         ]
         now = datetime.now()
         for v in demo_violations:
@@ -214,7 +199,7 @@ if st.session_state.running and st.session_state.detector:
                         (x1, y1-8), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (239,68,68), 2)
 
             challan_id = f"CH{now.strftime('%Y%m%d%H%M%S')}-{v['type'][:2].upper()}"
-            snap_path  = f"snapshots/{challan_id}.jpg"
+            snap_path  = str(SNAPSHOTS_DIR / f"{challan_id}.jpg")
             cv2.imwrite(snap_path, frame)
             generate_challan(challan_id, v["type"], v["plate"], v["confidence"], snap_path, now)
             append_log({
@@ -251,7 +236,7 @@ if st.session_state.running and st.session_state.detector:
             for v in results:
                 now        = datetime.now()
                 challan_id = f"CH{now.strftime('%Y%m%d%H%M%S')}-{v['type'][:2].upper()}"
-                snap_path  = f"snapshots/{challan_id}.jpg"
+                snap_path  = str(SNAPSHOTS_DIR / f"{challan_id}.jpg")
                 cv2.imwrite(snap_path, frame)
                 generate_challan(challan_id, v["type"], v["plate"], v["confidence"], snap_path, now)
                 append_log({

@@ -27,4 +27,4 @@
 
 ## Validation Strategy
 
-Automated tests validate pure detection helpers and challan output. Manual validation covers webcam access, Streamlit interaction, demo mode, and visual quality of generated PDFs.
+Automated tests validate pure detection helpers, submission identity, storage schema, and challan output. Manual validation covers webcam access, Streamlit interaction, demo mode, CSV persistence, evidence snapshots, and visual quality of generated PDFs. The current suite contains seven passing tests.

@@ -89,7 +89,8 @@ python -m unittest discover -s tests -v
 ```
 
 The tests cover violation colour mapping, bounding-box overlap, fallback plate
-formatting, and PDF/text challan generation. The camera and YOLO paths require
+formatting, submission identity, storage schema, and PDF/text challan generation.
+The camera and YOLO paths require
 the optional runtime dependencies listed in `requirements.txt`.
 
 ## 📋 Requirements & Design
@@ -117,6 +118,8 @@ e-challan-system/
 │
 ├── requirements.txt
 ├── .gitignore
+├── config.py                # Project identity and runtime configuration
+├── storage.py               # CSV log persistence
 ├── statement.md             # Problem, scope, users, and high-level features
 ├── README.md
 ├── docs/

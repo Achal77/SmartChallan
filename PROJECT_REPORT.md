@@ -89,7 +89,11 @@ The detection pipeline:
 2. Detected bounding boxes are filtered for `person` (class 0) and `motorcycle` (class 3)
 3. Spatial overlap between persons and motorcycles is calculated to associate riders with vehicles
 
-### 7.2 Violation Logic
+### 7.2 Dataset Description
+
+The prototype uses the pretrained COCO object-detection dataset through the YOLOv8n model. The relevant COCO classes are `person` (class 0) and `motorcycle` (class 3). No private student data or personally identifying dataset is stored in this repository. The demo mode uses synthetic frames and fixed sample records so the workflow can be evaluated without a camera.
+
+### 7.3 Violation Logic
 
 **No Helmet:**
 The top 25% of each detected rider's bounding box is treated as the "head region." A brightness (HSV Value channel) heuristic determines if a helmet is present — helmets tend to be darker and more uniform in colour than bare heads.
@@ -100,7 +104,7 @@ The count of persons whose bounding box overlaps significantly (>20% IoU) with a
 **Red Light Jump:**
 The upper-centre region of the frame (where traffic signals typically appear) is analysed in HSV colour space. If red pixels exceed 4% of the ROI area and a motorcycle is detected, a red light jump violation is raised.
 
-### 7.3 Number Plate OCR
+### 7.4 Number Plate OCR
 
 The bottom 20% of each motorcycle's bounding box is cropped as the number plate region. The region is:
 1. Converted to grayscale
@@ -110,7 +114,7 @@ The bottom 20% of each motorcycle's bounding box is cropped as the number plate 
 
 A fallback random plate generator ensures the demo always works without Tesseract installed.
 
-### 7.4 PDF Challan Generation
+### 7.5 PDF Challan Generation
 
 **fpdf2** was used to generate structured PDF challans containing:
 - Challan ID, timestamp, vehicle number, violation type
@@ -119,7 +123,7 @@ A fallback random plate generator ensures the demo always works without Tesserac
 - Evidence snapshot embedded in the PDF
 - Authority footer and payment instructions
 
-### 7.5 Dashboard
+### 7.6 Dashboard
 
 **Streamlit** was used for the frontend because it allows rapid development of data apps with Python. The dashboard includes:
 - Live annotated camera feed
@@ -184,9 +188,18 @@ Automated validation is implemented with Python's standard `unittest` framework 
 python -m unittest discover -s tests -v
 ```
 
-The suite checks detector overlap logic, violation colour coverage, helmet helper behaviour, fallback plate formatting, and required challan fields. Manual testing covers camera start/stop, demo mode, dashboard controls, CSV logging, evidence snapshots, and PDF downloads.
+The suite checks detector overlap logic, violation colour coverage, helmet helper behaviour, fallback plate formatting, submission identity, storage schema, and required challan fields. The current automated run contains **7 passing tests**. Manual testing covers camera start/stop, demo mode, dashboard controls, CSV logging, evidence snapshots, and PDF downloads.
 
-## 12. What I Learned
+## 12. Evaluation Methodology
+
+The system is evaluated in two modes:
+
+1. **Deterministic validation**: unit tests verify pure helper functions, identity configuration, log schema, fallback plate format, and challan field content.
+2. **Workflow validation**: demo mode verifies the complete path from frame creation to violation annotation, evidence snapshot, challan generation, CSV logging, and dashboard display. Webcam evaluation is performed under adequate lighting with a confidence threshold of 0.5.
+
+The prototype is assessed for functional completion rather than production accuracy. The main limitations are the heuristic helmet classifier, colour-based red-light detector, OCR sensitivity to image quality, and the lack of a custom labelled helmet dataset.
+
+## 13. What I Learned
 
 1. **YOLOv8 is remarkably accessible** — downloading a pretrained model and running inference takes under 10 lines of Python. The hard work is in the application logic built around detections.
 
@@ -200,7 +213,7 @@ The suite checks detector overlap logic, violation colour coverage, helmet helpe
 
 ---
 
-## 13. Future Improvements
+## 14. Future Improvements
 
 - Train a custom YOLOv8 model on a labelled helmet/no-helmet dataset (e.g., from Roboflow)
 - Integrate a dedicated ANPR model (PaddleOCR or OpenALPR) for better plate reading
@@ -211,7 +224,7 @@ The suite checks detector overlap logic, violation colour coverage, helmet helpe
 
 ---
 
-## 14. References
+## 15. References
 
 - Ultralytics YOLOv8 Documentation — https://docs.ultralytics.com
 - OpenCV Documentation — https://docs.opencv.org

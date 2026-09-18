@@ -6,7 +6,9 @@ from datetime import datetime
 import numpy as np
 
 from challan_generator import _text_challan
+from config import DEMO_PLATE, PROJECT_AUTHOR, REGISTRATION_NO
 from detector import COLOURS, ViolationDetector, _fake_plate
+from storage import load_log
 
 
 class DetectorTests(unittest.TestCase):
@@ -30,6 +32,11 @@ class DetectorTests(unittest.TestCase):
 
 
 class ChallanTests(unittest.TestCase):
+    def test_submission_identity_is_configured(self):
+        self.assertEqual(PROJECT_AUTHOR, "A Achal")
+        self.assertEqual(REGISTRATION_NO, "24BAI10839")
+        self.assertEqual(DEMO_PLATE, REGISTRATION_NO)
+
     def test_text_challan_contains_required_fields(self):
         text = _text_challan(
             "CH001", "No Helmet", "24BAI10839", 0.91,
@@ -37,6 +44,12 @@ class ChallanTests(unittest.TestCase):
         )
         for value in ("CH001", "No Helmet", "24BAI10839", "91.0%", "INR 1,000/-"):
             self.assertIn(value, text)
+
+    def test_log_schema_is_stable(self):
+        self.assertEqual(
+            list(load_log().columns),
+            ["timestamp", "violation", "plate", "confidence", "challan_id", "snapshot"],
+        )
 
 
 if __name__ == "__main__":
